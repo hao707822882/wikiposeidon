@@ -1,0 +1,5 @@
+wiki模型
+
+search model-----只有需要被检索的才在这个model中
+
+persistent model------持久化model
