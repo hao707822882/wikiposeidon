@@ -34,7 +34,7 @@ public class LolWikiContentVersionItemPersistent implements Serializable{
     /**
      * 有数据吗
      */
-    private boolean hasData;
+    private boolean hasData = false;
 
     public boolean isHasData() {
         return hasData;

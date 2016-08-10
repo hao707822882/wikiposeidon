@@ -29,13 +29,13 @@ public class WikiExportImpl implements WikiExport {
     }
 
     @Override
-    public LolWikiItemPersistent createWikiContent(Long wikiItemId, LolWikiContentPersistent lolWikiContentPersistent) {
-        return wikiService.createWikiContent(wikiItemId, lolWikiContentPersistent);
+    public LolWikiItemPersistent createWikiContent(Long wikiItemId, Long actorId, LolWikiContentPersistent lolWikiContentPersistent) {
+        return wikiService.createWikiContent(wikiItemId, actorId, lolWikiContentPersistent);
     }
 
     @Override
-    public LolWikiItemPersistent createNewVersionWikiContent(String wiki) {
-        return null;
+    public LolWikiItemPersistent createNewVersionWikiContent(Long wikiItemId, Long actorId, LolWikiContentPersistent lolWikiContentPersistent) {
+        return wikiService.createNewVersionWikiContent(wikiItemId, actorId, lolWikiContentPersistent);
     }
 
     @Override

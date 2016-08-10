@@ -22,7 +22,7 @@ import java.io.Serializable;
 public class LolWikiItemSearch implements Serializable {
 
     @Id
-    private Long id;
+    private String id;
 
     @Version
     private Long version;
@@ -39,12 +39,12 @@ public class LolWikiItemSearch implements Serializable {
     @Field(index = FieldIndex.analyzed, store = true, analyzer = AnalyseType.IK, searchAnalyzer = AnalyseType.IK, type = FieldType.String)
     private String summary;
 
-    public Long getId() {
-        return id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getId() {
+        return id;
     }
 
     public Long getVersion() {

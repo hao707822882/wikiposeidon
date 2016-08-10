@@ -18,10 +18,10 @@ public interface WikiExport {
     LolWikiItemPersistent createWiki(String wiki, boolean root);
 
     //录入词条内容
-    LolWikiItemPersistent createWikiContent(Long wikiItemId, LolWikiContentPersistent lolWikiContentPersistent);
+    LolWikiItemPersistent createWikiContent(Long wikiItemId, Long actorId, LolWikiContentPersistent lolWikiContentPersistent);
 
     //创建一个新版本--》获取内容，复制一份，将子版本加入到词条关系中
-    LolWikiItemPersistent createNewVersionWikiContent(String wiki);
+    LolWikiItemPersistent createNewVersionWikiContent(Long wikiItemId, Long actorId, LolWikiContentPersistent lolWikiContentPersistent);
 
     //检索wiki
     List<LolWikiItemSearch> searchWiki(String query);

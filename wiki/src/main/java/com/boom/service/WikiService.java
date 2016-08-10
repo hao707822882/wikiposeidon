@@ -6,12 +6,18 @@ import com.boom.esdao.LolWikiItemSearchESDao;
 import com.boom.export.IdGenerate;
 import com.boom.model.elastic.LolWikiItemSearch;
 import com.boom.model.mongo.LolWikiContentPersistent;
+import com.boom.model.mongo.LolWikiContentVersionItemPersistent;
+import com.boom.model.mongo.LolWikiItemAndContentRelationPersistent;
 import com.boom.model.mongo.LolWikiItemPersistent;
 import com.boom.mondao.LolWikiContentPersistentDao;
 import com.boom.mondao.LolWikiItemAndContentRelationPersistentDao;
 import com.boom.mondao.LolWikiItemPersistentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author chen.xinghu
@@ -20,6 +26,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class WikiService {
+
+    public static final String ID_PREFIX = "_";
+
     @Autowired
     private LolWikiItemSearchESDao lolWikiItemSearchESDao;
 
@@ -55,7 +64,7 @@ public class WikiService {
      * @param lolWikiContentPersistent
      * @return
      */
-    public LolWikiItemPersistent createWikiContent(Long wikiItemId, LolWikiContentPersistent lolWikiContentPersistent) {
+    public LolWikiItemPersistent createWikiContent(Long wikiItemId, Long actorId, LolWikiContentPersistent lolWikiContentPersistent) {
         //保存mongodb
         Long id = idGenerate.getId();
         lolWikiContentPersistent.setId(id);
@@ -63,10 +72,42 @@ public class WikiService {
         //保存es,独立一个字段专门是用来做检索的
         LolWikiItemSearch lolWikiItemSearch = new LolWikiItemSearch();
         lolWikiItemSearch.setName(lolWikiContentPersistent.getName());
+        lolWikiItemSearch.setSummary(lolWikiContentPersistent.getSummary());
         //这个ID里包含词条ID和词条详情ID
-//        lolWikiItemSearch.setId();
+        lolWikiItemSearch.setId(getSearchId(wikiItemId, id));
+        lolWikiItemSearchESDao.save(lolWikiItemSearch);
         //建立关联关系
+        LolWikiItemAndContentRelationPersistent lolWikiItemAndContentRelationPersistent = new LolWikiItemAndContentRelationPersistent();
+        lolWikiItemAndContentRelationPersistent.setItemId(wikiItemId);
+        lolWikiItemAndContentRelationPersistent.setContentId(id);
+        lolWikiItemAndContentRelationPersistentDao.save(lolWikiItemAndContentRelationPersistent);
+
+        LolWikiContentVersionItemPersistent lolWikiContentVersionItemPersistent = new LolWikiContentVersionItemPersistent();
+        lolWikiContentVersionItemPersistent.setId(id);
+        lolWikiContentVersionItemPersistent.setActorId(actorId);
+        lolWikiContentVersionItemPersistent.setActTime(new Date().getTime());
+        lolWikiContentVersionItemPersistent.setHasData(true);
+        lolWikiContentVersionItemPersistent.setVersion(1L);
+        LolWikiItemPersistent one = lolWikiItemPersistentDao.findOne(wikiItemId);
+        List<LolWikiContentVersionItemPersistent> versions = one.getVersions();
+        if (versions == null) {
+            versions = new ArrayList<>();
+            versions.add(lolWikiContentVersionItemPersistent);
+            one.setVersions(versions);
+        } else {
+            versions.add(lolWikiContentVersionItemPersistent);
+        }
         //在词条目录添加版本
+        LolWikiItemPersistent save1 = lolWikiItemPersistentDao.save(one);
+        return save1;
+    }
+
+
+    private String getSearchId(Long itemId, Long contentId) {
+        return itemId + ID_PREFIX + contentId;
+    }
+
+    public LolWikiItemPersistent createNewVersionWikiContent(Long wikiItemId, Long actorId, LolWikiContentPersistent lolWikiContentPersistent) {
         return null;
     }
 }
