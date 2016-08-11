@@ -1,0 +1,93 @@
+<section class="scrollable padder">
+    <section class="panel panel-default ">
+        <header class="panel-heading">咨询记录</header>
+        <div class="panel-body">
+
+            <div class="app">
+                <div text-angular="text-angular" name="htmlcontent" ng-model="htmlcontent"
+                     ta-disabled='disabled'></div>
+
+                <br/>
+
+                <form class="form-inline">
+
+                    <div class="form-group" ng-show="false">
+                        <label for="group">项目组：</label>
+                        <select class="form-control" ng-model="group" id="group">
+                            <option value="招生组">招生组</option>
+                            <option value="教学组">教学组</option>
+                        </select>
+                    </div>
+                    <div class="form-group" ng-show="false">
+                        <label for="contentType">咨询问题类别：</label>
+                        <select class="form-control" ng-model="contentType" id="contentType">
+                            <option value="服务相关">服务相关</option>
+                            <option value="游戏相关">游戏相关</option>
+                        </select>
+                    </div>
+                    <div class="form-group" ng-show="group == '招生组'">
+                        <label for="result">类型：</label>
+                        <select class="form-control" ng-model="chatType" id="chatType">
+                            <option value="遗留咨询">遗留咨询</option>
+                            <option value="当前咨询">当前咨询</option>
+                            <option value="当前咨询">学员问答</option>
+                        </select>
+                    </div>
+                    <div class="form-group" ng-show="group == '教学组'">
+                        <label for="chatContentType">类型：</label>
+                        <select class="form-control" ng-model="chatContentType" id="chatContentType">
+                            <option value="游戏问题咨询" ng-show="group == '教学组'">游戏问题咨询</option>
+                            <option value="招生问题咨询" ng-show="group == '招生组'">招生问题咨询</option>
+                            <option value="其他问题咨询">其他问题咨询</option>
+                        </select>
+                    </div>
+                    <div class="form-group" ng-show="false">
+                        <label for="result">处理结果：</label>
+                        <select class="form-control" ng-model="result" id="result">
+                            <option value="1">成功</option>
+                            <option value="0">失败</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" ng-show="group == '招生组'">
+                        <label for="targetGroup">来源群：</label>
+                        <input type="text" class="form-control" id="targetGroup" placeholder="来源群"
+                               ng-model="targetGroup">
+                    </div>
+
+
+                    <div class="form-group" ng-show="contentType == '游戏相关' && group== '教学组'">
+                        <label for="question">问题：</label>
+                        <input type="text" class="form-control" id="question" placeholder="问题" ng-model="question"
+                               style="width: 400px">
+                    </div>
+
+                    <div class="form-group" ng-show="group == '教学组'">
+                        <label for="classid">班级ID：</label>
+                        <select class="form-control" ng-model="classId" id="classid">
+                            <option ng-repeat="clazz in allClass" value="{{clazz.classId}}">{{clazz.className}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" ng-show="group == '教学组'">
+                        <label for="studentNum">学号：</label>
+                        <input type="text" class="form-control" id="studentNum" placeholder="学号" ng-model="studentNum">
+                    </div>
+
+                </form>
+                <br/>
+
+
+                <button class="btn btn-dark" ng-click="addChatContent()">添加！</button>
+
+                <!--展示标签-->
+                <ul class="list-group" ng-repeat="lab in allLab">
+                    <li class="list-group-item">
+                        <span class="badge"></span>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </section>
+</section>

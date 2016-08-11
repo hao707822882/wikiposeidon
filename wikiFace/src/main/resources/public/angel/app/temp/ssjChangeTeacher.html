@@ -1,0 +1,77 @@
+<section class="scrollable padder">
+    <section class="panel panel-default">
+        <header class="panel-heading">生死局老师修改
+        </header>
+        <div class="panel-body">
+            <div class="scrollable">
+                <div class="row wrapper">
+                    <div class="col-sm-5 m-b-xs">
+                    </div>
+                    <div class="col-sm-4 m-b-xs">
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input type="text" class="input-sm form-control ng-pristine ng-valid ng-touched"
+                                   placeholder="studentNum" ng-model="searchStudentNum">
+                      <span class="input-group-btn">
+                        <button class="btn btn-sm btn-default" type="button" data-target="#studentApplyDialog"
+                                ng-click="getSSJ()">Go!
+                        </button>
+                      </span>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped b-t b-light">
+                    <thead>
+                    <caption>教学列表
+                    </caption>
+                    <tr>
+                        <th>学号</th>
+                        <th>老师</th>
+                        <th>申请时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="ssj in ssjs" ng-show="ssj.serviceType==1 && (ssj.statue=='applyed'||ssj.statue=='allocated' )">
+                        <td>{{ssj.studentNum}}</td>
+                        <td>{{ssj.teacherId | teacher}}</td>
+                        <td>{{ssj.applyTime | dateText}}</td>
+                        <td>
+                            <a href="javascript:void(0)" ng-click="changeTeacher(ssj)">修改老师</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 修改老师对话框 -->
+    <div class="modal fade" id="changeTeacherDialog" tabindex="-1" role="dialog"
+         aria-labelledby="studentApplyDialogLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="studentApplyDialogLabel">♡所有老师</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-inline">
+                        <label class="control-label">老师：</label>
+                        <select ng-model="selectTeacher" class="form-control" style="width: 400px">
+                            <option ng-repeat="teacher in teachers" value="{{teacher.id}}">{{teacher.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="doChange()">修改</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

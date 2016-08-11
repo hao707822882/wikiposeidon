@@ -75,4 +75,15 @@ public class LolWikiContentVersionItemPersistent implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "LolWikiContentVersionItemPersistent{" +
+                "id=" + id +
+                ", version=" + version +
+                ", actorId=" + actorId +
+                ", actTime=" + actTime +
+                ", hasData=" + hasData +
+                '}';
+    }
 }

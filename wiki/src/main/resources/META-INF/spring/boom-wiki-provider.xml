@@ -18,4 +18,8 @@
     <!--学员扩展信息-->
     <dubbo:reference id="idGenerateService" interface="com.boom.export.IdGenerate" protocol="dubbo"/>
 
+    <dubbo:service
+            ref="wikiExportImpl"
+            interface="com.boom.export.WikiExport"
+            timeout="10000"/>
 </beans>

@@ -2,6 +2,8 @@ package com.boom.export;/**
  * Created by Administrator on 2016/8/10.
  */
 
+import com.boom.base.rt.DateRTBean;
+import com.boom.base.rt.GridRTBean;
 import com.boom.model.elastic.LolWikiItemSearch;
 import com.boom.model.mongo.LolWikiContentPersistent;
 import com.boom.model.mongo.LolWikiItemPersistent;
@@ -15,7 +17,7 @@ import java.util.List;
  */
 public interface WikiExport {
     //创建词条
-    LolWikiItemPersistent createWiki(String wiki, boolean root);
+    LolWikiItemPersistent createWiki(String wiki, Long creatorId, boolean root);
 
     //录入词条内容
     LolWikiItemPersistent createWikiContent(Long wikiItemId, Long actorId, LolWikiContentPersistent lolWikiContentPersistent);
@@ -26,5 +28,16 @@ public interface WikiExport {
     //检索wiki
     List<LolWikiItemSearch> searchWiki(String query);
 
+    //获取词条
+    GridRTBean getWikiItemByPage(Long page, Long size);
+
+    //删除词条
+    DateRTBean delWikiItem(long actorId, Long wikiItemId);
+
+    //删除词条项
+    DateRTBean delWikiContent(long actorId, Long wikiItemId, Long wikiItemContentId);
+
+    //更新词条
+    DateRTBean updateWikiContent(long actorId, Long wikiItemId, LolWikiContentPersistent wikiContent);
 
 }

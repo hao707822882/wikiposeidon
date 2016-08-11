@@ -1,0 +1,178 @@
+<section class="scrollable padder">
+    <section class="panel panel-default ">
+        <header class="panel-heading">老师列表服务</header>
+        <div class="panel-body">
+            <table class="table table-striped b-t b-light">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>帐号</th>
+                    <th>密码</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <caption>
+                    <div class="col-sm-1 pull-right">
+                      <span class="input-group-btn">
+                        <button class="btn btn-sm btn-default" type="button" ng-click="showAddTeacher()">添加帐号
+                        </button>
+                      </span>
+
+                    </div>
+                </caption>
+                <tbody>
+                <tr ng-repeat="t in da track by $index">
+                    <td>{{$index+1}}</td>
+                    <td>{{t.id}}</td>
+                    <td>{{t.name}}</td>
+                    <td>{{t.username}}</td>
+                    <td>{{t.password}}</td>
+                    <td>
+                        <a href="javascript:void(0)" ng-click="del(t.id,$event)">删除|&nbsp;&nbsp;</a>
+                        <a href="javascript:void(0)" ng-click="showChange(t,$event)">修改|&nbsp;&nbsp;</a>
+                        <a href="javascript:void(0)" ng-click="showAuthority(t,$event)">权限管理</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="modal fade" id="addTeacher" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">♡帐号信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="bs-example form-horizontal">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">名称：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="名称" ng-model="subObj.name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">帐号：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="帐号" ng-model="subObj.username">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">密码：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="密码" ng-model="subObj.password">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="saveAccount()">Save changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="changTeacher" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="changTeacherTitle">♡帐号信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="bs-example form-horizontal">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">名称：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="名称" ng-model="target.name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">帐号：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="帐号" ng-model="target.username">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">密码：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="密码" ng-model="target.password">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="doChange()">Save changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="TeacherAuthority" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:800px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="TeacherAuthorityInfo">♡老师权限管理</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped b-t b-light">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>ID</th>
+                            <th>权限</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="ur in userRoles track by $index">
+                            <td>{{$index+1}}</td>
+                            <td>{{ur.id}}</td>
+                            <td>{{ur.role}}</td>
+                            <td>
+                                <a href="javascript:void(0)" ng-click="delRole(ur.id,$event)">删除&nbsp;&nbsp;</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <form class="bs-example form-inline">
+                        <div class="form-group">
+                            <div>
+                                <select class="form-control" ng-model="selectRole">
+                                    <option ng-repeat="rols in allRoles" value="{{rols.id}}">{{rols.role}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <button type="button" class="btn form-control" data-dismiss="modal" ng-click="addRole()">添加权限</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

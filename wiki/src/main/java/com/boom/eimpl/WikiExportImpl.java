@@ -2,12 +2,16 @@ package com.boom.eimpl;/**
  * Created by Administrator on 2016/8/10.
  */
 
+import com.boom.base.rt.DateRTBean;
+import com.boom.base.rt.GridRTBean;
 import com.boom.export.WikiExport;
 import com.boom.model.elastic.LolWikiItemSearch;
 import com.boom.model.mongo.LolWikiContentPersistent;
 import com.boom.model.mongo.LolWikiItemPersistent;
 import com.boom.service.WikiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +28,8 @@ public class WikiExportImpl implements WikiExport {
     private WikiService wikiService;
 
     @Override
-    public LolWikiItemPersistent createWiki(String wiki, boolean root) {
-        return wikiService.createWiki(wiki, root);
+    public LolWikiItemPersistent createWiki(String wiki, Long creatorId, boolean root) {
+        return wikiService.createWiki(wiki, creatorId, root);
     }
 
     @Override
@@ -40,6 +44,29 @@ public class WikiExportImpl implements WikiExport {
 
     @Override
     public List<LolWikiItemSearch> searchWiki(String query) {
-        return null;
+        return wikiService.searchWiki(query);
+    }
+
+    @Override
+    public GridRTBean getWikiItemByPage(Long page, Long size) {
+        page = page == null ? 0 : page;
+        size = size == null ? 0 : size;
+        Pageable pageable = new PageRequest(page.intValue(), size.intValue());
+        return wikiService.getWikiItemByPage(pageable);
+    }
+
+    @Override
+    public DateRTBean delWikiItem(long actorId, Long wikiItemId) {
+        return wikiService.delWikiItem(actorId, wikiItemId);
+    }
+
+    @Override
+    public DateRTBean delWikiContent(long actorId, Long wikiItemId, Long wikiItemContentId) {
+        return wikiService.delWikiContent(actorId, wikiItemId, wikiItemContentId);
+    }
+
+    @Override
+    public DateRTBean updateWikiContent(long actorId, Long wikiItemId, LolWikiContentPersistent wikiContent) {
+        return wikiService.updateWikiContent(actorId, wikiItemId, wikiContent);
     }
 }

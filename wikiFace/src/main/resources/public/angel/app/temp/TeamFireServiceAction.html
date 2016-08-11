@@ -1,0 +1,96 @@
+<section class="scrollable padder">
+    <section class="panel panel-default ">
+        <header class="panel-heading">团队实训服务录入</header>
+        <div class="panel-body">
+
+            <div class="app">
+                <form class="form-inline" id="firstForm">
+
+                    <div class="form-group">
+                        <label for="studentNum">队长学号：</label>
+                        <input type="text" class="form-control" id="studentNum" placeholder="队长学号"
+                               ng-model="leaderStudentNum">
+                    </div>
+
+                    <span style="float: right;font-size: 36px;cursor:pointer" ng-click="addPartner()">+</span>
+                </form>
+                <br/>
+
+
+                <!--聊天内容-->
+                <div text-angular="text-angular" name="htmlcontent" ng-model="chatDate"
+                     ta-disabled='disabled'></div>
+                <br/>
+
+
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="dx">对线评价：</label>
+                        <input type="text" class="form-control" id="dx" placeholder="对线评价" style="width: 400px"
+                               ng-model="dx">
+                    </div>
+                    <div class="form-group">
+                        <label for="fy">发育评价：</label>
+                        <input type="text" class="form-control" id="fy" placeholder="发育评价" style="width: 400px"
+                               ng-model="fy">
+                    </div>
+                    <div class="form-group">
+                        <label for="zy">支援评价：</label>
+                        <input type="text" class="form-control" id="zy" placeholder="支援评价" style="width: 400px"
+                               ng-model="zy">
+                    </div>
+                    <div class="form-group">
+                        <label for="tz">团战评价：</label>
+                        <input type="text" class="form-control" id="tz" placeholder="团战评价" style="width: 400px"
+                               ng-model="tz">
+                    </div>
+                    <div class="form-group">
+                        <label for="dx">输出评价：</label>
+                        <input type="text" class="form-control" id="sc" placeholder="输出评价" style="width: 400px"
+                               ng-model="sc">
+                    </div>
+                    <div class="form-group">
+                        <label for="tz">综合评价：</label>
+                        <input type="text" class="form-control" id="zhpj" placeholder="综合评价" style="width: 400px"
+                               ng-model="zhpj">
+                    </div>
+                </form>
+                <button class="btn btn-dark push-right" ng-click="addApply()">添加！</button>
+                <!--英雄对话框-->
+                <div class="modal fade" id="championDialog" tabindex="-1" role="dialog"
+                     aria-labelledby="studentApplyDialogLabel">
+                    <div class="modal-dialog" role="document" style="width:900px;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="studentApplyDialogLabel">♡所有英雄</h4>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-striped b-t b-light">
+                                    <thead>
+                                    <caption>英雄列表<input type="text" class="pull-right" ng-model="searchChampion">
+                                    </caption>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="c in champions">
+                                        <td ng-repeat="champion in c"
+                                            ng-class="{true: 'text-danger', false: ''}[searchChampion!='' && champion.name.indexOf(searchChampion)>=0]">
+                                            <img src="http://school.iboom.tv/school/images/public/champion/{{champion.img}}"
+                                                 style="width: 50px;height: 50px"
+                                                 ng-click="doSelectChampion(champion.id,champion.title)">{{champion.name}}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

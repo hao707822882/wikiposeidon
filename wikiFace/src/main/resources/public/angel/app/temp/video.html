@@ -1,0 +1,78 @@
+<section class="scrollable padder">
+    <section class="panel panel-default ">
+        <header class="panel-heading">添加视频</header>
+        <div class="panel-body">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="videoName">视屏名字：</label>
+                    <input type="text" class="form-control" id="videoName" placeholder="视屏名字" ng-model="videoName">
+                </div>
+                <div class="form-group">
+                    <label for="remark">视频备注：</label>
+                    <input type="text" class="form-control" id="remark" placeholder="视频备注" ng-model="remark">
+                </div>
+                <div class="form-group">
+                    <label for="videoUrl">视频地址：</label>
+                    <input type="text" class="form-control" id="videoUrl" placeholder="视频备注" ng-model="videoUrl">
+                </div>
+
+                <div class="form-group">
+                    <label for="classid">班级ID：</label>
+                    <select class="form-control" ng-model="classId" id="classid">
+                        <option ng-repeat="clazz in allClass" value="{{clazz.classId}}">{{clazz.className}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="teacherId">老师ID：</label>
+                    <select class="form-control" ng-model="teacherId" id="teacherId">
+                        <option ng-repeat="teacher in allTeacher" value="{{teacher.id}}">{{teacher.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="videoType">视频类型：</label>
+                    <select class="form-control" ng-model="videoType" id="videoType"
+                            ng-change="changeShowChampion(videoType)">
+                        <option value="基础课">基础课</option>
+                        <option value="英雄课">英雄课</option>
+                        <option value="国服第一分享">国服第一分享</option>
+                    </select>
+                </div>
+                <div class="form-group" ng-show="showChampion">
+                    <label for="champion">英雄：</label>
+                    <input type="text" class="form-control" id="champion" placeholder="英雄名称" ng-model="championName"
+                           ng-model="championName">
+                </div>
+                <div class="form-group">
+                    <label for="videoWayType">路线类型：</label>
+                    <select class="form-control" ng-model="videoWayType" id="videoWayType">
+                        <option value="上路">上路</option>
+                        <option value="中路">中路</option>
+                        <option value="打野">打野</option>
+                        <option value="ADC">ADC</option>
+                        <option value="辅助">辅助</option>
+                        <option value="下路组合">下路组合</option>
+                    </select>
+                </div>
+                <button class="btn btn-default" ng-click="addVideo()">添加！</button>
+                <div class="form-group" ng-show="showChampion">
+                    <table class="table table-striped b-t b-light">
+                        <thead>
+                        <caption>英雄列表<input type="text" class="pull-right" ng-model="searchChampion"
+                                            placeholder="英雄名字："></caption>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="c in champions">
+                            <td ng-repeat="champion in c"
+                                ng-class="{true: 'text-danger', false: ''}[searchChampion!='' && champion.name.indexOf(searchChampion)>=0]">
+                                <img src="http://school.iboom.tv/school/images/public/champion/{{champion.img}}"
+                                     style="width: 50px;height: 50px"
+                                     ng-click="selectChampion(champion.id,champion.title)">{{champion.name}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </section>
+</section>

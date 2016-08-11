@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<!-- HTML5 -->
+<html lang="en" class="app" ng-app="teach">
+<head>
+    <meta charset="utf-8"/>
+    <title>Wiki 管理 后台</title>
+    <meta name="description"
+          content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="js/jPlayer/jplayer.flat.css" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!--    <link rel="stylesheet" href="css/bootstrap.css" type="text/css"/>-->
+    <link rel="stylesheet" href="css/animate.css" type="text/css"/>
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css"/>
+    <link rel="stylesheet" href="css/simple-line-icons.css" type="text/css"/>
+    <link rel="stylesheet" href="css/font.css" type="text/css"/>
+    <link rel="stylesheet" href="css/app.css" type="text/css"/>
+    <style>
+        .ta-editor {
+            min-height: 300px;
+            height: auto;
+            overflow: auto;
+            font-family: inherit;
+            font-size: 100%;
+        }
+    </style>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="layer/layer.js"></script>
+    <script src="layer/extend/layer.ext.js"></script>
+    <script src="js/angular.js"></script>
+    <!--<script src="js/angular-mocks.js"></script>-->
+    <!--<script src="js/angular-animate.js"></script>-->
+    <script src="js/angular-route.min.js"></script>
+
+    <script src="editer/textAngular-rangy.min.js"></script>
+    <script src="editer/textAngular-sanitize.js"></script>
+    <script src="editer/textAngularSetup.js"></script>
+    <script src="editer/textAngular.js"></script>
+    <!--UE-->
+    <link rel="stylesheet" href="../framework/ue/themes/default/css/umeditor.css" type="text/css"/>
+    <script type="text/javascript" charset="utf-8" src="../framework/ue/umeditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../framework/ue/umeditor.min.js"></script>
+    <script type="text/javascript" src="../framework/ue/lang/zh-cn/zh-cn.js"></script>
+    <!--加载MD5js-->
+    <script type="text/javascript" src="md5/spark-md5.js"></script>
+</head>
+<body class="">
+<section class="vbox">
+    <lock lockid="ajaxModal"></lock>
+    <header class="bg-white-only header header-md navbar navbar-fixed-top-xs" ng-controller="headerController">
+        <!--锁屏-->
+        <div class="modal fade in" id="ajaxModal" aria-hidden="false" style="display: none;">
+            <div class="modal-over">
+                <div class="modal-center animated fadeInUp text-center" style="width:200px;margin:-80px 0 0 -100px;">
+                    <div class="thumb-md"><img src="images/a0.png" class="img-circle b-a b-light b-3x"></div>
+                    <p class="text-white h4 m-t m-b">John.Smith</p>
+
+                    <div class="input-group">
+                        <input type="password" class="form-control text-sm btn-rounded"
+                               placeholder="Enter pwd to continue"
+                               ng-model="checkPassword">
+      <span class="input-group-btn">
+        <button class="btn btn-success btn-rounded" type="button" ng-click="unlock()"><i
+                class="fa fa-arrow-right"></i>
+        </button>
+      </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!---->
+        <div class="navbar-header aside bg-info nav-xs">
+            <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
+                <i class="icon-list"></i>
+            </a>
+            <a href="index.html" class="navbar-brand text-lt">
+                <i class="icon-book-open"></i>
+                <img src="images/logo.png" alt="." class="hide">
+                <span class="hidden-nav-xs m-l-sm">Boom</span>
+            </a>
+            <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">
+                <i class="icon-settings"></i>
+            </a>
+        </div>
+        <ul class="nav navbar-nav hidden-xs">
+            <li>
+                <a href="#nav,.navbar-header" data-toggle="class:nav-xs,nav-xs" class="text-muted">
+                    <i class="fa fa-indent text"></i>
+                    <i class="fa fa-dedent text-active"></i>
+                </a>
+            </li>
+        </ul>
+        <!--检索-->
+        <form class="navbar-form navbar-left input-s-lg m-t m-l-n-xs hidden-xs" role="search">
+            <div class="form-group">
+                <div class="input-group">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
+            </span>
+                    <input type="text" class="form-control input-sm no-border rounded"
+                           placeholder="Search songs, albums...">
+                </div>
+            </div>
+        </form>
+        <div class="navbar-right ">
+            <ul class="nav navbar-nav m-n hidden-xs nav-user user">
+                <li class="hidden-xs" ng-click="goBack()">
+                    <a href="javascript:void(0)" class="dropdown-toggle lt">
+                        <i class=" icon-control-rewind text-center">&nbsp;&nbsp;回退</i>
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropdown-toggle bg clear" data-toggle="dropdown">
+              <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
+                <img src="images/a0.png" alt="...">
+              </span>
+                        {{name}} <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight">
+
+                        <li>
+                            <a href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <section ng-controller="menuController">
+        <section class="hbox stretch">
+            <!-- .aside -->
+            <aside class="bg-black dk nav-xs aside hidden-print" id="nav">
+                <section class="vbox">
+                    <section class="w-f-md scrollable">
+                        <div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0"
+                             data-size="10px" data-railOpacity="0.2">
+
+                            <!-- nav -->
+                            <nav class="nav-primary hidden-xs">
+                                <ul class="nav" data-ride="collapse">
+                                    <li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted">
+                                        BooM-教学服务
+                                    </li>
+
+                                    <li>
+                                        <a href="#oneToOneService" class="auto">
+                                            <span class="pull-right text-muted">
+                                              <i class="fa fa-angle-left text"></i>
+                                              <i class="fa fa-angle-down text-active"></i>
+                                            </span>
+                                            <i class="icon-users icon">
+                                            </i>
+                                            <span>一对一服务</span>
+                                        </a>
+                                        <ul class="nav dk text-sm">
+                                            <li>
+                                                <a href="#oneToOneService" class="auto">
+                                                    <i class="fa fa-angle-right text-xs"></i>
+                                                    <span>一对一服务列表</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+
+                                    <!--&lt;!&ndash;咨询记录服务&ndash;&gt;-->
+                                    <!--<li>-->
+                                    <!--<a href="#editer" class="auto">-->
+                                    <!--<span class="pull-right text-muted">-->
+                                    <!--<i class="fa fa-angle-left text"></i>-->
+                                    <!--<i class="fa fa-angle-down text-active"></i>-->
+                                    <!--</span>-->
+                                    <!--<i class="icon-users icon">-->
+                                    <!--</i>-->
+                                    <!--<span>编辑器测试-->
+                                    <!--</span>-->
+                                    <!--</a>-->
+                                    <!--<ul class="nav dk text-sm">-->
+                                    <!--<li>-->
+                                    <!--<a href="#editer" class="auto">-->
+                                    <!--<i class="fa fa-angle-right text-xs"></i>-->
+                                    <!--<span>编辑器测试</span>-->
+                                    <!--</a>-->
+                                    <!--</li>-->
+                                    <!--</ul>-->
+                                    <!--</li>-->
+                                </ul>
+                            </nav>
+                            <!-- / nav -->
+                        </div>
+                    </section>
+
+                </section>
+            </aside>
+            <!-- /.aside -->
+            <section id="content">
+                <section class="hbox stretch">
+                    <section>
+                        <section class="vbox" ng-view>
+                            <!--<section class="scrollable padder-lg w-f-md" ng-view>-->
+
+
+                            <!--</section>-->
+                        </section>
+                    </section>
+                    <!-- side content -->
+
+                    <!-- / side content -->
+                </section>
+
+            </section>
+        </section>
+    </section>
+</section>
+
+
+<!-- Bootstrap -->
+<script src="js/bootstrap.js"></script>
+<!-- App -->
+<script src="js/app.js"></script>
+<script src="js/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="js/app.plugin.js"></script>
+
+<script>
+    var myAppModule = angular.module('teach', ["ngRoute", "textAngular"])
+</script>
+<!--扩展js-->
+<script>
+    Array.prototype.indexOf = function (val) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] == val) return i;
+        }
+        return -1;
+    };
+    Array.prototype.remove = function (val) {
+        var index = this.indexOf(val);
+        if (index > -1) {
+            this.splice(index, 1);
+        }
+    };
+</script>
+<script src="app/service/HttpService.js"></script>
+<script src="app/service/loginService.js"></script>
+<script src="app/service/ClassService.js"></script>
+<script src="app/service/TeacherService.js"></script>
+<script src="app/service/LabService.js"></script>
+<script src="app/service/TableService.js"></script>
+<script src="app/service/CheckService.js"></script>
+<script src="app/service/RankService.js"></script>
+<script src="app/service/DataService.js"></script>
+<script src="app/service/ChampionService.js"></script>
+<script src="app/service/ScopeService.js"></script>
+<script src="app/service/AreaService.js"></script>
+<script src="app/service/StudentService.js"></script>
+<script src="app/service/Md5Service.js"></script>
+<script src="app/service/RoleService.js"></script>
+
+
+<script src="app/filter/Filter.js"></script>
+<script src="app/directive/LockScreen.js"></script>
+<script src="app/directive/OnRepeatEnd.js"></script>
+<script src="app/directive/ToolTip.js"></script>
+<script src="app/directive/UMEditer.js"></script>
+<script src="app/directive/BindingFile.js"></script>
+<script src="app/directive/UploadFile.js"></script>
+
+<script>
+    myAppModule.config(function (LoginStatueProvider) {
+        LoginStatueProvider.setStatueUrl("/admin/statue");
+        LoginStatueProvider.setLoginUrl("/")
+    });
+</script>
+<script src="app/controller/headerController.js"></script>
+<script src="app/controller/indexController.js"></script>
+<script src="app/controller/menuController.js"></script>
+<script src="app/controller/oneToOneServiceController.js"></script>
+
+<script src="app/rout/routStart.js"></script>
+
+
+</body>
+</html>

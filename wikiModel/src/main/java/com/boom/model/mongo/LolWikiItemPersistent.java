@@ -28,6 +28,11 @@ public class LolWikiItemPersistent implements Serializable {
     private boolean root;
 
     /**
+     * 词条创建者Id
+     */
+    private Long createrId;
+
+    /**
      * 子节点
      */
     @Field(value = "childs")
@@ -55,6 +60,15 @@ public class LolWikiItemPersistent implements Serializable {
      */
     @Field(value = "contentVersions")
     private List<LolWikiContentVersionItemPersistent> versions;
+
+
+    public Long getCreaterId() {
+        return createrId;
+    }
+
+    public void setCreaterId(Long createrId) {
+        this.createrId = createrId;
+    }
 
     public Long getNewestVersion() {
         return newestVersion;
@@ -118,5 +132,19 @@ public class LolWikiItemPersistent implements Serializable {
 
     public void setVersions(List<LolWikiContentVersionItemPersistent> versions) {
         this.versions = versions;
+    }
+
+    @Override
+    public String toString() {
+        return "LolWikiItemPersistent{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", root=" + root +
+                ", childs=" + childs +
+                ", parents=" + parents +
+                ", brothers=" + brothers +
+                ", newestVersion=" + newestVersion +
+                ", versions=" + versions +
+                '}';
     }
 }

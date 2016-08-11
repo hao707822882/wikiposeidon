@@ -1,0 +1,250 @@
+<section class="scrollable padder">
+
+    <section class="panel panel-default ">
+        <header class="panel-heading">工作统计</header>
+
+        <div class="panel-body">
+            <div class="">
+                <table class="table table-striped b-t b-light">
+                    <thead>
+                    <tr>
+                        <th class="text-center">当前队列长度</th>
+                        <th class="text-center">最大队列长度</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr class="text-center">
+                        <td>{{realLength}}</td>
+                        <td>{{maxLength}}</td>
+                        <td><a href="javascript:void(0)" ng-click="changeQueue()">修改最大长度</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel panel-default">
+        <header class="panel-heading">
+            一对一服务
+        </header>
+        <div class="btn-group btn-group-justified">
+            <a href="#oneToOneService" class="btn btn-primary">一对一</a>
+            <a href="#ssj" class="btn btn-info">生死局</a>
+            <a href="#teamFire" class="btn btn-success">团战实训</a>
+        </div>
+        <br/>
+            <table class="table table-striped b-t b-light">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>学号</th>
+                    <th>QQ</th>
+                    <th>手机</th>
+                    <th>段位</th>
+                    <th>大区</th>
+                    <!--英雄学习/技巧学习-->
+                    <th>学习模式</th>
+                    <th>英雄</th>
+                    <th>技巧说明</th>
+                    <th>教学模式</th>
+                    <th>申请时间</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="da in myApply track by $index">
+
+                    <td ng-click="deleteApply(da.id,$event)" ng-if="tabIndex == 1 ||tabIndex == 0 ||tabIndex == 2"
+                        style="cursor:pointer">
+                        <!--删除预约-->
+                        <a href="javascript:void (0)" class="active">
+                            <i class="fa fa-check text-success"></i>
+                        </a>
+                    </td>
+                    <td>{{$index+1}}</td>
+                    <td>{{da.studentNum}}</td>
+                    <td>{{da.qq}}</td>
+                    <td>{{da.phone}}</td>
+                    <td>{{(da.tier+''+da.queue)| rankText }}</td>
+                    <td>{{da.areaName}}</td>
+                    <td>{{da.teachModeType | teachMode}}</td>
+                    <td>{{da.championName}}</td>
+                    <td>{{da.skillTeach}}</td>
+                    <td style="width: 200px">{{da.teachMode}}</td>
+                    <td>{{da.applyTime | dateText}}</td>
+                    <td>{{da.remark}}</td>
+                    <td>
+                        <a href="javascript:void(0)" ng-click="showRemark(da)">备注</a>|&nbsp;&nbsp;
+                        <a href="javascript:void(0)" ng-click="expire(da.id,$event)">取消</a>|&nbsp;&nbsp;
+                        <a href="javascript:void(0)" ng-click="showEvaluate(da.id,$event)">完成</a>|&nbsp;&nbsp;
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+    <!--设置备注-->
+    <div class="modal fade" id="setRemark" tabindex="-1" role="dialog"
+         aria-labelledby="studentApplyDialogLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">♡设置备注</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="bs-example form-inline">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">备注：</label>
+                            <input type="text" value="" ng-model="setRemarkModel" class="form-control"
+                                   style="width: 350px">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="doSetRemark()">修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--设置备注-->
+    <div class="modal fade" id="setMax" tabindex="-1" role="dialog"
+         aria-labelledby="studentApplyDialogLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">♡设置队列最大长度</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="bs-example form-horizontal">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">最大长度：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" ng-model="setMax" class="form-control">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="doSetMax()">修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 查询学员的申请 -->
+    <div class="modal fade" id="studentApplyDialog" tabindex="-1" role="dialog"
+         aria-labelledby="studentApplyDialogLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="studentApplyDialogLabel">♡所有申请</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped b-t b-light">
+                        <thead>
+                        <tr>
+                            <th>学号</th>
+                            <th>申请时间</th>
+                            <th>老师</th>
+                            <th>状态</th>
+                            <th>分配</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="da in applys track by $index">
+                            <td>{{da.studentNum}}</td>
+                            <td>{{da.applyTime | dateText}}</td>
+                            <td>{{da.teacherId | teacher}}</td>
+                            <td>{{da.statue}}</td>
+                            <td ng-click="pick(da.id,$event)" style="cursor: pointer">分配</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="evaluate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">♡老师点评</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="bs-example form-horizontal">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">对线：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="对线" ng-model="dx">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">支援：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="支援" ng-model="zy">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">输出：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="输出" ng-model="sc">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">发育：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="发育" ng-model="fy">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">团战：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="团战" ng-model="tz">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">综合评价：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="综合评价" ng-model="zhpj">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="teacherEvaluate()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

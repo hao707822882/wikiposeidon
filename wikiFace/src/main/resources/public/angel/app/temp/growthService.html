@@ -1,0 +1,211 @@
+<section class="scrollable padder">
+    <section class="panel panel-default" ng-show="list">
+        <header class="panel-heading">教练计划-学员列表<a href="javascript:void(0)" class="pull-right" ng-click="backList()"><<==回退</a>
+        </header>
+        <div class="panel-body">
+            <div class="scrollable">
+                <div class="row wrapper">
+                    <div class="col-sm-5 m-b-xs">
+                    </div>
+                    <div class="col-sm-4 m-b-xs">
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input type="text" class="input-sm form-control ng-pristine ng-valid ng-touched"
+                                   placeholder="studentNum" ng-model="searchStudentNum">
+                      <span class="input-group-btn">
+                        <button class="btn btn-sm btn-default" type="button" data-target="#studentApplyDialog"
+                                ng-click="getGrowthPlan()">Go!
+                        </button>
+                      </span>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped b-t b-light">
+                    <thead>
+                    <caption>教学列表
+                    </caption>
+                    <tr>
+                        <th>学号</th>
+                        <th>角色名</th>
+                        <th>区服</th>
+                        <th>班级</th>
+                        <th>起始段位</th>
+                        <th>当前段位</th>
+                        <th>补刀练习</th>
+                        <th>走砍练习</th>
+                        <th>控线练习</th>
+                        <th>主练英雄1</th>
+                        <th>主练英雄2</th>
+                        <th>开启状态</th>
+                        <th>学员评价</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="cl in thisPage.data">
+                        </td>
+                        <td>{{cl.studentNum}}</td>
+                        <td>{{cl.summoner}}</td>
+                        <td>{{cl.areaName}}</td>
+                        <td>{{cl.classId}}</td>
+                        <td>{{cl.begin.tier+""+cl.begin.queue | rankText}}</td>
+                        <td>{{cl.recent.tier+""+cl.recent.queue |rankText}}</td>
+                        <td>{{cl.budaoOk}}</td>
+                        <td>{{cl.zoukanOk}}</td>
+                        <td>{{cl.kongxianOk}}</td>
+                        <td>{{cl.champion1Name== undefind?"":cl.champion1Name}}</td>
+                        <td>{{cl.champion2Name== undefind?"":cl.champion2Name}}</td>
+                        <td>{{cl.open==1?"":"关闭"}}</td>
+                        <td ng-click="showEvaluate(cl)">{{cl.status| planStatus}}</td>
+                        <td>
+                            <a href="javascript:void(0)" ng-click="copy(cl.summoner)">查询战绩 &nbsp;&nbsp;|&nbsp;&nbsp;</a>
+
+                            <a href="javascript:void(0)" ng-click="openService(cl.planId,cl.studentNum,$event)"
+                               ng-show="cl.open==0">开启服务
+                                &nbsp;&nbsp;|&nbsp;&nbsp;</a>
+
+                            <a href="javascript:void(0)" ng-click="changChampion(cl,$event)">修改英雄 &nbsp;&nbsp;|&nbsp;&nbsp;</a>
+                            <!--获取玩家要训练的英雄，加一个英雄列表-->
+
+                            <a href="javascript:void(0)"
+                               ng-click="submitScore(cl,$event)">提交成绩 &nbsp;&nbsp;|&nbsp;&nbsp;</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-sm-8 text-center">
+                        <small class="text-muted inline m-t-sm m-b-sm">showing &nbsp;&nbsp;&nbsp;&nbsp;index:
+                            {{thisPage.nowPage+1}}/ page of
+                            {{thisPage.data.length}} items
+                        </small>
+                    </div>
+
+                    <div class="col-sm-4 text-right text-center-xs">
+                        <ul class="pagination pagination-sm m-t-none m-b-none">
+                            <li><a href="javascript:void (0)"><i class="fa fa-chevron-left"></i></a></li>
+                            <li ng-repeat="lab in thisPage.pageLab" ng-click="getPage(lab)"><a
+                                    href="javascript:void (0)">{{lab}}</a>
+                            </li>
+                            <li><a href="javascript:void (0)"><i class="fa fa-chevron-right"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="panel panel-default" ng-show="champion">
+        <header class="panel-heading">英雄修改<a href="javascript:void(0)" class="pull-right" ng-click="back()"><<==回退</a>
+        </header>
+        <div class="panel-body">
+            <div class="scrollable">
+                <table class="table table-striped b-t b-light">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>英雄名字</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="championStagePice in growthDetail.championStages track by $index">
+                        <td>{{$index+1}}</td>
+                        <td>{{championStagePice.championId | championName}}</td>
+                        <td><a href="javascript:void(0)"
+                               ng-click="delChampion(championStagePice.championId,$index)">删除</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-striped b-t b-light">
+                    <thead>
+                    <caption>英雄列表<input type="text" class="pull-right" ng-model="searchChampion"></caption>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="c in champions">
+                        <td ng-repeat="champion in c"
+                            ng-class="{true: 'text-danger', false: ''}[searchChampion!='' && champion.name.indexOf(searchChampion)>=0]">
+                            <img src="http://school.iboom.tv/school/images/public/champion/{{champion.img}}"
+                                 style="width: 50px;height: 50px"
+                                 ng-click="addChampion(champion.id,champion.title)">{{champion.name}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <section class="panel panel-default" ng-show="score">
+        <header class="panel-heading">成绩提交<a href="javascript:void(0)" class="pull-right" ng-click="back()"><<==回退</a>
+        </header>
+        <div class="panel-body">
+            <div class="scrollable">
+                <table class="table table-striped b-t b-light">
+                    <thead>
+                    <caption>补刀成绩</caption>
+                    <tr>
+                        <th>学号</th>
+                        <th>班级</th>
+                        <th>练习等级</th>
+                        <th>通过状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="budaoStage in growthDetail.budaoStages">
+                        <td>{{budaoStage.studentNum}}</td>
+                        <td>{{budaoStage.classId}}</td>
+                        <td>{{budaoStage.level | level}}</td>
+                        <td>{{budaoStage.status | status}}</td>
+                        <td><a href="javascript:void(0)" ng-click="passBudao(budaoStage)">通过</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br/>
+                <table class="table table-striped b-t b-light">
+                    <thead>
+                    <caption>控线练习</caption>
+                    <tr>
+                        <th>学号</th>
+                        <th>班级</th>
+                        <th>练习等级</th>
+                        <th>通过状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="kongxian in growthDetail.kongxianStages">
+                        <td>{{kongxian.studentNum}}</td>
+                        <td>{{kongxian.classId}}</td>
+                        <td>{{kongxian.level | level}}</td>
+                        <td>{{kongxian.status | status}}</td>
+                        <td><a href="javascript:void(0)" ng-click="passKongxian(kongxian)">通过</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-striped b-t b-light">
+                    <thead>
+                    <caption>走砍练习</caption>
+                    <tr>
+                        <th>学号</th>
+                        <th>班级</th>
+                        <th>练习等级</th>
+                        <th>通过状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{growthDetail.zooukanStage.studentNum}}</td>
+                        <td>{{growthDetail.zooukanStage.classId}}</td>
+                        <td>{{growthDetail.zooukanStage.level | level}}</td>
+                        <td>{{growthDetail.zooukanStage.status | status}}</td>
+                        <td><a href="javascript:void(0)" ng-click="passZoukan(growthDetail.zooukanStage)">通过</a></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</section>

@@ -1,0 +1,122 @@
+<section class="scrollable padder">
+    <section class="panel panel-default ">
+        <header class="panel-heading">团队实训服务</header>
+        <div class="btn-group btn-group-justified">
+            <a href="#oneToOneService" class="btn btn-primary">一对一</a>
+            <a href="#ssj" class="btn btn-info">生死局</a>
+            <a href="#teamFire" class="btn btn-success">团战实训</a>
+        </div>
+        <br/>
+
+        <div class="panel-body">
+            <table class="table table-striped b-t b-light">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>ID</th>
+                    <th>队长学号</th>
+                    <th>成员学号</th>
+                    <th>最后确认时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="da in tabDate.data track by $index">
+                    <td>{{$index+1}}</td>
+                    <td>{{da.id}}</td>
+                    <td><span tipq="{{da.leaderStudentNum}}">{{da.leaderStudentNum}}</span>
+                    </td>
+                    <td><span ng-repeat="partners in  da.teamFirePartners" tipq="{{partners.studentNum}}">{{partners.studentNum}}|&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </td>
+                    <td>{{da.confirmTime | dateText}}</td>
+                    <td><a href="javascript:void(0)" ng-click="finishTeamFire(da.id,$event,true)">完成</a></td>
+                </tr>
+
+                </tbody>
+            </table>
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-8 text-center">
+                        <small class="text-muted inline m-t-sm m-b-sm">showing &nbsp;&nbsp;&nbsp;&nbsp;index:
+                            {{tabDate.nowPage}}/ page of
+                            {{tabDate.data.length}} items
+                        </small>
+                    </div>
+
+                    <div class="col-sm-4 text-right text-center-xs">
+                        <ul class="pagination pagination-sm m-t-none m-b-none">
+                            <li><a href="javascript:void (0)"><i class="fa fa-chevron-left"></i></a></li>
+                            <li ng-repeat="lab in tabDate.pageLab" ng-click="getPage(lab-1)"><a
+                                    href="javascript:void (0)">{{lab}}</a>
+                            </li>
+                            <li><a href="javascript:void (0)"><i class="fa fa-chevron-right"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </section>
+    <div class="modal fade" id="evaluate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">♡老师点评</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="bs-example form-horizontal">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">对线：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="对线" ng-model="dx">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">支援：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="支援" ng-model="zy">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">输出：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="输出" ng-model="sc">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">发育：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="发育" ng-model="fy">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">团战：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="团战" ng-model="tz">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">综合评价：</label>
+
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" placeholder="综合评价" ng-model="zhpj">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="finishTeamFire(null,null,false)">Save
+                        changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

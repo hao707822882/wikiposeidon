@@ -1,0 +1,130 @@
+<section class="scrollable padder">
+    <section class="panel panel-default ">
+        <header class="panel-heading">老师信息服务</header>
+        <div class="panel-body">
+            <table class="table table-striped b-t b-light">
+                <thead>
+                </thead>
+                <caption>
+                    <div class="col-sm-3 pull-right">
+                        <button class="btn btn-sm btn-default" type="button"
+                                ng-click="edit()">修改
+                        </button>
+                    </div>
+                </caption>
+                <tbody ng-show="!canEdit">
+                <tr>
+                    <td>名字</td>
+                    <td>{{da.name}}</td>
+                </tr>
+                <tr>
+                    <td>头像</td>
+                    <td><img src="{{staticRoot}}{{da.header}}"/></td>
+                </tr>
+                <tr>
+                    <td>学员交流QQ</td>
+                    <td>{{da.qq}}</td>
+                </tr>
+                <tr>
+                    <td>段位</td>
+                    <td>{{da.tier}}</td>
+                </tr>
+                <tr>
+                    <td>擅长位置</td>
+                    <td>{{da.goodAtWay}}</td>
+                </tr>
+                <tr>
+                    <td>擅长英雄</td>
+                    <td>
+                        <img src="http://school.iboom.tv/school/images/public/champion/{{champion.championId | championImg}}"
+                             ng-repeat="champion in da.goodAtChampion"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>老师简介</td>
+                    <td>{{da.introduce}}</td>
+                </tr>
+                </tbody>
+                <tbody ng-show="canEdit">
+                <tr>
+                    <td>名字</td>
+                    <td><input type="text" ng-model="da.name"></td>
+                </tr>
+                <tr>
+                    <td>头像</td>
+                    <td><input type="file" file="header" upload="{name:'我是name','url':'我是url','key':'header'}"></td>
+                    <td><img src="{{staticRoot}}{{da.header}}"/></td>
+                </tr>
+                <tr>
+                    <td>学员交流QQ</td>
+                    <td><input type="text" ng-model="da.qq"></td>
+                </tr>
+                <tr>
+                    <td>段位</td>
+                    <td><input type="text" ng-model="da.tier"></td>
+                </tr>
+                <tr>
+                    <td>擅长位置</td>
+                    <td><input type="text" ng-model="da.goodAtWay"></td>
+                </tr>
+                <tr>
+                    <td>擅长英雄</td>
+                    <td>
+                        <img src="http://school.iboom.tv/school/images/public/champion/{{champion.championId | championImg}}"
+                             ng-repeat="champion in da.goodAtChampion track by $index" style="cursor: pointer"
+                             ng-click="delChampion($index)"/>
+                    </td>
+                    <td><span style="font-size: 30px;cursor: pointer" ng-click="showChampionDialog()">＋</span></td>
+                </tr>
+                <tr>
+                    <td>老师简介</td>
+                    <td><input type="text" ng-model="da.introduce" style="width: 500px"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button class="btn btn-default" type="button"
+                                ng-click="save()">保存
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+        <div class="modal fade" id="championDialog" tabindex="-1" role="dialog"
+             aria-labelledby="studentApplyDialogLabel">
+            <div class="modal-dialog" role="document" style="width:900px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="studentApplyDialogLabel">♡所有英雄</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped b-t b-light">
+                            <thead>
+                            <caption>英雄列表<input type="text" class="pull-right" ng-model="searchChampion">
+                            </caption>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="c in champions">
+                                <td ng-repeat="champion in c"
+                                    ng-class="{true: 'text-danger', false: ''}[searchChampion!='' && champion.name.indexOf(searchChampion)>=0]">
+                                    <img src="http://school.iboom.tv/school/images/public/champion/{{champion.img}}"
+                                         style="width: 50px;height: 50px"
+                                         ng-click="doAddChampion(champion.id,champion.title)">{{champion.name}}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

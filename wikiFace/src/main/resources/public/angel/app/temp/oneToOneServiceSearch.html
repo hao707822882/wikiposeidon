@@ -1,0 +1,81 @@
+<section class="scrollable padder">
+    <section class="panel panel-default ">
+        <header class="panel-heading">一对一服务检索</header>
+
+        <div class="panel-body">
+            <table class="table table-striped b-t b-light">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>学号</th>
+                    <th>QQ</th>
+                    <th>手机</th>
+                    <th>申请状态</th>
+                    <th>教学类型</th>
+                    <th>服务类型</th>
+                    <th>教学老师</th>
+                    <th>申请时间</th>
+                    <th>结束时间</th>
+                    <th ng-show="hasRoleChangeTeacher">操作</th>
+                </tr>
+                </thead>
+                <caption>父标签
+                    <div class="col-sm-3 pull-right">
+                        <div class="input-group">
+                            <input type="text" class="input-sm form-control ng-pristine ng-valid ng-touched"
+                                   placeholder="学号" ng-model="studentNum">
+                      <span class="input-group-btn">
+                        <button class="btn btn-sm btn-default" type="button"
+                                ng-click="search()">一对一服务检索
+                        </button>
+                      </span>
+                        </div>
+                    </div>
+                </caption>
+                <tbody>
+                <tr ng-repeat="da in studentApplys track by $index">
+                    <td>{{$index+1}}</td>
+                    <td>{{da.studentNum}}</td>
+                    <td>{{da.qq}}</td>
+                    <td>{{da.phone}}</td>
+                    <td>{{da.endType == 0 ? '被取消': da.statue}}</td>
+                    <td>{{da.teachModeType==0?'英雄教学':'技巧教学'}}</td>
+                    <th>{{da.serviceType==0?'一对一教学':'生死局代打'}}</th>
+                    <td>{{da.teacherId | teacher}}</td>
+                    <td>{{da.applyTime | dateText}}</td>
+                    <td>{{da.closeTime | dateText}}</td>
+                    <td ng-show="hasRoleChangeTeacher"><a href="javascript:void(0)" ng-click="showChangeTeacher(da)">更换老师</a>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 修改老师对话框 -->
+        <div class="modal fade" id="changeTeacherDialog" tabindex="-1" role="dialog"
+             aria-labelledby="studentApplyDialogLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="studentApplyDialogLabel">♡所有老师</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group form-inline">
+                            <label class="control-label">老师：</label>
+                            <select ng-model="selectTeacher" class="form-control" style="width: 400px">
+                                <option ng-repeat="teacher in teachers" value="{{teacher.id}}">{{teacher.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="doChange()">修改</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

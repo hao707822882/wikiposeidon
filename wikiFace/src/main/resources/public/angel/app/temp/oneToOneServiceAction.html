@@ -1,0 +1,162 @@
+<section class="scrollable padder">
+    <section class="panel panel-default ">
+        <header class="panel-heading">一对一服务录入</header>
+        <div class="panel-body">
+
+            <div class="app">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="classId">班级：</label>
+                        <select class="form-control" ng-model="classId" id="classId">
+                            <option ng-repeat="clazz in allClass" value="{{clazz.classId}}">{{clazz.className}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="studentNum">学号：</label>
+                        <input type="text" class="form-control" id="studentNum" placeholder="学号" ng-model="studentNum">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="areaName">大区：</label>
+                        <select class="form-control" ng-model="areaName" id="areaName">
+                            <option ng-repeat="area in allArea" value="{{area.name}}">{{area.name}}</option>
+                        </select>
+                    </div>
+
+                    <!--学习的类型-->
+                    <div class="form-group">
+                        <label for="studyType">学习类型：</label>
+                        <!--选择英雄学习弹窗，选择英雄，技巧学习，出现下啦列表-->
+                        <select class="form-control" ng-model="teachModeType" id="studyType"
+                                ng-change="showWhich(teachModeType)">
+                            <option value="0">英雄学习</option>
+                            <option value="1">技巧学习</option>
+                        </select>
+
+                        <div class="form-group" ng-show="teachModeType == '0' ">
+                            <label for="championId">英雄名称：</label>
+                            <input type="text" class="form-control" id="championId" placeholder="英雄名称" readonly
+                                   ng-model="championName">
+                        </div>
+                        <div class="form-group" ng-show="teachModeType == '0' ">
+                            <label for="desrieWay">想学的位置：</label>
+                            <select class="form-control ng-pristine ng-valid ng-touched" ng-model="desrieWay"
+                                    id="desrieWay">
+                                <option value="? undefined:undefined ?"></option>
+                                <option value="上单">上单</option>
+                                <option value="中单">中单</option>
+                                <option value="打野">打野</option>
+                                <option value="辅助">辅助</option>
+                                <option value="ADC">ADC</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="false">
+                        <label for="continued">持续时间：</label>
+                        <input type="text" class="form-control" id="continued" placeholder="持续时间"
+                               ng-model="continued">
+                    </div>
+
+                </form>
+                <form class="form-inline">
+                    <div class="form-group" ng-show="teachModeType == '1' ">
+                        <label for="skillTeach">技巧学习：</label>
+                        <input type="checkbox" class="form-control" id="skillTeach"
+                               ng-model="skillTeach[0]" value="对线学习">对线学习
+                        <input type="checkbox" class="form-control"
+                               ng-model="skillTeach[1]" value="补刀学习">补刀学习
+                        <input type="checkbox" class="form-control" ng-model="skillTeach[2]" value="打野学习">打野学习
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="form-group">
+                        <label for="teachMode">教学模式：</label>
+                        <input type="checkbox" value="SOLO教学， 提升对线能力，英雄能力" class="form-control"
+                               id="teachMode" ng-model="teachMode[0]"/>SOLO教学
+                        <input type="checkbox" value="实战教学，提升大局观能力，意识能力" class="form-control"
+                               ng-model="teachMode[1]"/>实战教学
+                        <input type="checkbox" value="录像教学，了解自己游戏缺点，学习他人优点" class="form-control"
+                               ng-model="teachMode[2]"/>录像教学
+                    </div>
+                </form>
+
+                <br/>
+                <!--聊天内容-->
+                <div text-angular="text-angular" name="htmlcontent" ng-model="chatDate"
+                     ta-disabled='disabled'></div>
+
+                <br/>
+
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="dx">对线评价：</label>
+                        <input type="text" class="form-control" id="dx" placeholder="对线评价" style="width: 400px"
+                               ng-model="dx">
+                    </div>
+                    <div class="form-group">
+                        <label for="fy">发育评价：</label>
+                        <input type="text" class="form-control" id="fy" placeholder="发育评价" style="width: 400px"
+                               ng-model="fy">
+                    </div>
+                    <div class="form-group">
+                        <label for="zy">支援评价：</label>
+                        <input type="text" class="form-control" id="zy" placeholder="支援评价" style="width: 400px"
+                               ng-model="zy">
+                    </div>
+                    <div class="form-group">
+                        <label for="tz">团战评价：</label>
+                        <input type="text" class="form-control" id="tz" placeholder="团战评价" style="width: 400px"
+                               ng-model="tz">
+                    </div>
+                    <div class="form-group">
+                        <label for="dx">输出评价：</label>
+                        <input type="text" class="form-control" id="sc" placeholder="输出评价" style="width: 400px"
+                               ng-model="sc">
+                    </div>
+                    <div class="form-group">
+                        <label for="tz">综合评价：</label>
+                        <input type="text" class="form-control" id="zhpj" placeholder="综合评价" style="width: 400px"
+                               ng-model="zhpj">
+                    </div>
+                </form>
+                <button class="btn btn-dark push-right" ng-click="addApply()">添加！</button>
+                <!--英雄对话框-->
+                <div class="modal fade" id="championDialog" tabindex="-1" role="dialog"
+                     aria-labelledby="studentApplyDialogLabel">
+                    <div class="modal-dialog" role="document" style="width:900px;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="studentApplyDialogLabel">♡所有英雄</h4>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-striped b-t b-light">
+                                    <thead>
+                                    <caption>英雄列表<input type="text" class="pull-right" ng-model="searchChampion">
+                                    </caption>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="c in champions">
+                                        <td ng-repeat="champion in c"
+                                            ng-class="{true: 'text-danger', false: ''}[searchChampion!='' && champion.name.indexOf(searchChampion)>=0]">
+                                            <img src="http://school.iboom.tv/school/images/public/champion/{{champion.img}}"
+                                                 style="width: 50px;height: 50px"
+                                                 ng-click="doSelectChampion(champion.id,champion.title)">{{champion.name}}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

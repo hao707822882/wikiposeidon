@@ -1,0 +1,112 @@
+<section class="scrollable padder">
+    <section class="panel panel-default ">
+        <header class="panel-heading">班级Switch</header>
+
+        <div class="panel-body">
+            <div class="">
+                <table class="table table-striped b-t b-light">
+                    <thead>
+                    <tr>
+                        <th>班级Id</th>
+                        <th>班级名字</th>
+                        <th>Statue</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="cl in classTabDate.data">
+                        </td>
+                        <td>{{cl.classId}}</td>
+                        <td>{{cl.className}}</td>
+                        <td ng-show="!cl.open">关闭</td>
+                        <td ng-show="cl.open">开启</td>
+                        <td ng-show="!cl.open" ng-click="classOpen(cl.classSwitchId,$event)">
+                            <!--开启-->
+                            <a href="javascript:void (0)" class="active">
+                                <i class="fa fa-check text-success"></i></a>
+                        </td>
+                        <td ng-show="cl.open" ng-click="classClose(cl.classId,$event)">
+                            <!--关闭-->
+                            <a href="javascript:void (0)" class="active">
+                                <i class="fa fa-times text-success"></i></a>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <section class="panel panel-default">
+        <header class="panel-heading">学员Switch</header>
+        <div class="panel-body">
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <select id="class" class="form-control" ng-model="selectedClassId"
+                            ng-change="getClassStudentSwitchStatue(selectedClassId)">
+                        <option ng-repeat="c in classTabDate.data" value="{{c.classId}}">{{c.className}}</option>
+                    </select>
+                </div>
+            </form>
+            <div class="scrollable">
+                <table class="table table-striped b-t b-light">
+                    <thead>
+                    <tr>
+                        <th>学号</th>
+                        <th>班级</th>
+                        <th>Statue</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="s in classStudentTabDate.data">
+                        <td>{{s.studentNum}}</td>
+                        <td>{{s.classId}}</td>
+                        <td ng-show="!s.open">关闭</td>
+                        <td ng-show="s.open">开启</td>
+                        <td ng-show="!s.open" ng-click="studentOpen(s.studentSwitchId,$event)">
+                            <!--开启-->
+                            <a href="javascript:void (0)" class="active">
+                                <i class="fa fa-check text-success"></i></a>
+                        </td>
+                        <td ng-show="s.open" ng-click="studentClose(s.studentNum,s.classId,$event)">
+                            <!--关闭-->
+                            <a href="javascript:void (0)" class="active">
+                                <i class="fa fa-times text-success"></i></a>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <div class="row">
+                    <!--<div class="col-sm-4 hidden-xs">-->
+                    <!--<select class="input-sm form-control input-s-sm inline v-middle">-->
+                    <!--<option value="0">Bulk action</option>-->
+                    <!--<option value="1">Delete selected</option>-->
+                    <!--<option value="2">Bulk edit</option>-->
+                    <!--<option value="3">Export</option>-->
+                    <!--</select>-->
+                    <!--<button class="btn btn-sm btn-default">Apply</button>-->
+                    <!--</div>-->
+                    <div class="col-sm-8 text-center">
+                        <small class="text-muted inline m-t-sm m-b-sm">showing &nbsp;&nbsp;&nbsp;&nbsp;index:
+                            {{classStudentTabDate.nowPage}}/ page of
+                            {{classStudentTabDate.data.length}} items
+                        </small>
+                    </div>
+
+                    <div class="col-sm-4 text-right text-center-xs">
+                        <ul class="pagination pagination-sm m-t-none m-b-none">
+                            <li><a href="javascript:void (0)"><i class="fa fa-chevron-left"></i></a></li>
+                            <li ng-repeat="lab in classStudentTabDate.pageLab" ng-click="getPage(lab)"><a
+                                    href="javascript:void (0)">{{lab}}</a>
+                            </li>
+                            <li><a href="javascript:void (0)"><i class="fa fa-chevron-right"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>

@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @comment 炸弹人数据平台
  * @date 2016/8/9
  */
-@Document(indexName = "wiki_lol", type = "LolWikiItemSearch", shards = 5, replicas = 0, refreshInterval = "-1")
+@Document(indexName = "wiki_lol", type = "LolWikiItemSearch", shards = 5, replicas = 0, refreshInterval = "-1", createIndex = true)
 public class LolWikiItemSearch implements Serializable {
 
     @Id
@@ -26,6 +26,12 @@ public class LolWikiItemSearch implements Serializable {
 
     @Version
     private Long version;
+
+
+    /**
+     * 与wiki冠梁的组合ID
+     */
+    private String wikiItemContentId;
 
     /**
      * 标题
@@ -38,6 +44,14 @@ public class LolWikiItemSearch implements Serializable {
      */
     @Field(index = FieldIndex.analyzed, store = true, analyzer = AnalyseType.IK, searchAnalyzer = AnalyseType.IK, type = FieldType.String)
     private String summary;
+
+    public String getWikiItemContentId() {
+        return wikiItemContentId;
+    }
+
+    public void setWikiItemContentId(String wikiItemContentId) {
+        this.wikiItemContentId = wikiItemContentId;
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -76,6 +90,7 @@ public class LolWikiItemSearch implements Serializable {
         return "LolWikiItemSearch{" +
                 "id='" + id + '\'' +
                 ", version=" + version +
+                ", wikiItemContentId='" + wikiItemContentId + '\'' +
                 ", name='" + name + '\'' +
                 ", summary='" + summary + '\'' +
                 '}';
