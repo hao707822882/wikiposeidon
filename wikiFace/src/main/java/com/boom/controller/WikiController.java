@@ -29,7 +29,10 @@ public class WikiController {
 
     //获取所有wiki
     @RequestMapping("/getWiki")
-    public GridRTBean getWiki(@RequestBody Page page) {
+    public GridRTBean getWiki(@RequestBody(required = false) Page page) {
+        if (page == null) {
+            page = new Page(0, 15);
+        }
         return wikiService.getWikiItemByPage(page.getPage().longValue(), page.getSize().longValue());
     }
 
@@ -56,10 +59,18 @@ public class WikiController {
     }
 
     //删除wiki词条项
-    @RequestMapping("/newVersionWikiContent")
+    @RequestMapping("/delWikiItem")
     public DateRTBean delWikiItem(@RequestBody WikiContentCreateRequest wikiContentCreateRequest) {
         BoomUser auth = AuthUtil.getAuth();
-        return wikiService.delWikiItem(auth.getId(), wikiContentCreateRequest.getWikiItemId(), wikiContentCreateRequest.getWikiContent().getId());
+        return wikiService.delWikiItem(auth.getId(), wikiContentCreateRequest.getWikiItemId());
+    }
+
+
+    //删除wiki词条项
+    @RequestMapping("/delWikiContent")
+    public DateRTBean delWikiContent(@RequestBody WikiContentCreateRequest wikiContentCreateRequest) {
+        BoomUser auth = AuthUtil.getAuth();
+        return wikiService.delWikiContent(auth.getId(), wikiContentCreateRequest.getWikiItemId(), wikiContentCreateRequest.getWikiContent().getId());
     }
 
     //修改wiki
@@ -69,5 +80,12 @@ public class WikiController {
         return wikiService.updateWikiContent(auth.getId(), wikiContentCreateRequest);
     }
 
+    //检索wiki
+    @RequestMapping("/searchWiki")
+    public DateRTBean searchWiki(String search) {
+        return wikiService.searchWiki(search);
+    }
+
+    //词条的斧子关系
 
 }

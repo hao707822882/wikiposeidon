@@ -41,14 +41,6 @@ myAppModule.filter("teachMode", function (DateService) {
 )
 
 
-myAppModule.filter("teacher", function (TeacherService) {
-        return function (input) {
-            var teacher = TeacherService.get(input);
-            return teacher != null ? teacher.name : "老师未确定";
-        };
-    }
-)
-
 
 myAppModule.filter("championName", function (ChampionService) {
         return function (input) {
@@ -70,30 +62,7 @@ myAppModule.filter("championImg", function (ChampionService) {
 )
 
 
-myAppModule.filter("studentNumToStudent", function (StudentService) {
-        return function (input) {
-            if (input == null) {
-                return "学号为空"
-            }
-            return StudentService.get(input);
-        };
-    }
-)
 
-myAppModule.filter("studentNumToQQ", function (StudentService) {
-        return function (input) {
-            if (input == null) {
-                return "学号为空"
-            }
-            var student = StudentService.get(input);
-            if (student) {
-                return student.qq
-            } else {
-                return "学员未找到";
-            }
-        };
-    }
-)
 
 myAppModule.filter("status", function (ChampionService) {
         return function (input) {

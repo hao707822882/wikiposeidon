@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/3/8.
  */
-myAppModule.controller('oneToOneServiceController', ["asyncHttp", "tableService", "DataCheckService", "ScopeService", "$scope", function (asyncHttp, tableService, DataCheckService, ScopeService, $scope) {
+myAppModule.controller('wikiItemController', ["asyncHttp", "tableService", "DataCheckService", "ScopeService", "$scope", function (asyncHttp, tableService, DataCheckService, ScopeService, $scope) {
 
     var domain = {
         "myAll": "/admin/getMyAllOneToOneApply",

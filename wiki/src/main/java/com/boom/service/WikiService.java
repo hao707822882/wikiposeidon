@@ -205,7 +205,7 @@ public class WikiService {
             }
         }
         //删除 es
-        return DateRTBean.newInstance(false, "", null);
+        return DateRTBean.newInstance(false, "删除词条成功！", null);
     }
 
     public DateRTBean delWikiContent(Long actorid, Long wikiContentId, Long wikiItemContentId) {
@@ -215,6 +215,24 @@ public class WikiService {
 
 
     public DateRTBean updateWikiContent(long actorId, Long wikiItemId, LolWikiContentPersistent wikiContent) {
-        return null;
+        //保存传的wikiContent
+        LolWikiContentPersistent save = lolWikiContentPersistentDao.save(wikiContent);
+        LolWikiItemSearch byWikiItemContentId = lolWikiItemSearchESDao.findByWikiItemContentId(getSearchId(wikiItemId, wikiContent.getId()));
+        byWikiItemContentId.setName(wikiContent.getName());
+        byWikiItemContentId.setSummary(wikiContent.getSummary());
+        LolWikiItemSearch updateWikiItem = lolWikiItemSearchESDao.save(byWikiItemContentId);
+        return DateRTBean.newInstance(false, "更新wiki项呢哦荣成功！", null);
+    }
+
+    public LolWikiItemPersistent getWikiItemByName(String name) {
+        return lolWikiItemPersistentDao.findByName(name);
+    }
+
+    public List<LolWikiItemPersistent> getWikiItemByIds(ArrayList<Long> itemIds) {
+        return lolWikiItemPersistentDao.findByIdIn(itemIds);
+    }
+
+    public LolWikiItemPersistent getWikiItemById(Long itemId) {
+        return lolWikiItemPersistentDao.findOne(itemId);
     }
 }

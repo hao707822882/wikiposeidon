@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,5 +69,20 @@ public class WikiExportImpl implements WikiExport {
     @Override
     public DateRTBean updateWikiContent(long actorId, Long wikiItemId, LolWikiContentPersistent wikiContent) {
         return wikiService.updateWikiContent(actorId, wikiItemId, wikiContent);
+    }
+
+    @Override
+    public LolWikiItemPersistent getWikiItemByName(String name) {
+        return wikiService.getWikiItemByName(name);
+    }
+
+    @Override
+    public List<LolWikiItemPersistent> getWikiItemById(ArrayList<Long> itemIds) {
+        return wikiService.getWikiItemByIds(itemIds);
+    }
+
+    @Override
+    public LolWikiItemPersistent getWikiItemById(Long itemId) {
+        return wikiService.getWikiItemById(itemId);
     }
 }

@@ -87,4 +87,12 @@ public interface WikiService {
      * @return
      */
     DateRTBean delWikiItem(long id, Long wikiItemId);
+
+    /**
+     * 检索wiki
+     *
+     * @param search
+     * @return
+     */
+    DateRTBean searchWiki(String search);
 }

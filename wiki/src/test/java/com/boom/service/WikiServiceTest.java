@@ -24,7 +24,7 @@ public class WikiServiceTest extends BaseTest {
 
     //@Test
     public void testCreateWiki() {
-        LolWikiItemPersistent zg = wikiService.createWiki("中国", creatorId, true);
+        LolWikiItemPersistent zg = wikiService.createWiki("中国", 10L, true);
         System.out.println(zg);
         //2982698713203712
     }

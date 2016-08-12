@@ -1,40 +1,8 @@
 <section class="scrollable padder">
-
-    <section class="panel panel-default ">
-        <header class="panel-heading">工作统计</header>
-
-        <div class="panel-body">
-            <div class="">
-                <table class="table table-striped b-t b-light">
-                    <thead>
-                    <tr>
-                        <th class="text-center">当前队列长度</th>
-                        <th class="text-center">最大队列长度</th>
-                        <th class="text-center">操作</th>
-                    </tr>
-
-                    </thead>
-                    <tbody>
-                    <tr class="text-center">
-                        <td>{{realLength}}</td>
-                        <td>{{maxLength}}</td>
-                        <td><a href="javascript:void(0)" ng-click="changeQueue()">修改最大长度</a></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
     <section class="panel panel-default">
         <header class="panel-heading">
-            一对一服务
+            词条管理
         </header>
-        <div class="btn-group btn-group-justified">
-            <a href="#oneToOneService" class="btn btn-primary">一对一</a>
-            <a href="#ssj" class="btn btn-info">生死局</a>
-            <a href="#teamFire" class="btn btn-success">团战实训</a>
-        </div>
         <br/>
             <table class="table table-striped b-t b-light">
                 <thead>
@@ -171,7 +139,7 @@
                         <tr ng-repeat="da in applys track by $index">
                             <td>{{da.studentNum}}</td>
                             <td>{{da.applyTime | dateText}}</td>
-                            <td>{{da.teacherId | teacher}}</td>
+                            <td>{{da.teacherId }}</td>
                             <td>{{da.statue}}</td>
                             <td ng-click="pick(da.id,$event)" style="cursor: pointer">分配</td>
                         </tr>

@@ -21,5 +21,7 @@ public interface LolWikiItemSearchESDao extends ElasticsearchRepository<LolWikiI
     //根据Id删除
     Long deleteByWikiItemContentId(String searchId);
 
+    //根据WikiItemContentId查找
+    LolWikiItemSearch findByWikiItemContentId(String searchId);
 
 }

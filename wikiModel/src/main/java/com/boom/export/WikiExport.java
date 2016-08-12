@@ -8,6 +8,7 @@ import com.boom.model.elastic.LolWikiItemSearch;
 import com.boom.model.mongo.LolWikiContentPersistent;
 import com.boom.model.mongo.LolWikiItemPersistent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,4 +41,12 @@ public interface WikiExport {
     //更新词条
     DateRTBean updateWikiContent(long actorId, Long wikiItemId, LolWikiContentPersistent wikiContent);
 
+    //根据词条查找wiki
+    LolWikiItemPersistent getWikiItemByName(String search);
+
+    //根据IDs 获取词条列表
+    List<LolWikiItemPersistent> getWikiItemById(ArrayList<Long> itemIds);
+
+    //根据id获取词条
+    LolWikiItemPersistent getWikiItemById(Long itemId);
 }
